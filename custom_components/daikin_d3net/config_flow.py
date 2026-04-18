@@ -12,7 +12,16 @@ from homeassistant.const import CONF_HOST, CONF_NAME, CONF_PORT
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import HomeAssistantError
 
-from .const import CONF_SLAVE, DEFAULT_NAME, DEFAULT_PORT, DEFAULT_SLAVE, DOMAIN
+from .const import (
+    CONF_PROTOCOL,
+    CONF_SLAVE,
+    DEFAULT_NAME,
+    DEFAULT_PORT,
+    DEFAULT_SLAVE,
+    DOMAIN,
+    PROTOCOL_RTU_OVER_TCP,
+    PROTOCOL_TCP,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -22,6 +31,9 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
         vol.Required(CONF_HOST): str,
         vol.Required(CONF_PORT, default=DEFAULT_PORT): int,
         vol.Optional(CONF_SLAVE, default=DEFAULT_SLAVE): int,
+        vol.Optional(CONF_PROTOCOL, default=PROTOCOL_TCP): vol.In(
+            [PROTOCOL_TCP, PROTOCOL_RTU_OVER_TCP]
+        ),
     }
 )
 

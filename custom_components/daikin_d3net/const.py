@@ -28,6 +28,10 @@ MANUFACTURER = "Daikin"
 MODEL = "DIII-Net Modbus"
 
 CONF_SLAVE = "d3net_slave"
+CONF_PROTOCOL = "modbus_protocol"
+
+PROTOCOL_TCP = "tcp"
+PROTOCOL_RTU_OVER_TCP = "rtu_over_tcp"
 
 DEFAULT_NAME = "Daikin"
 DEFAULT_PORT = 502

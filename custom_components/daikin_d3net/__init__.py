@@ -7,6 +7,13 @@ from datetime import timedelta
 import logging
 
 from pymodbus.client import AsyncModbusTcpClient
+try:
+    from pymodbus.framer import FramerType as ModbusFramer
+except ImportError:
+    try:
+        from pymodbus.framer import ModbusRtuFramer as ModbusFramer
+    except ImportError:
+        from pymodbus.framer.rtu_framer import ModbusRtuFramer as ModbusFramer
 
 from homeassistant.config_entries import ConfigEntry, ConfigEntryNotReady
 from homeassistant.const import CONF_HOST, CONF_NAME, CONF_PORT, Platform
@@ -14,7 +21,15 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
-from .const import CONF_SLAVE, DOMAIN, MANUFACTURER, MODEL, UPDATE_INTERVAL
+from .const import (
+    CONF_PROTOCOL,
+    CONF_SLAVE,
+    DOMAIN,
+    MANUFACTURER,
+    MODEL,
+    PROTOCOL_RTU_OVER_TCP,
+    UPDATE_INTERVAL,
+)
 from .d3net.gateway import D3netGateway, D3netUnit
 
 _LOGGER = logging.getLogger(__name__)
@@ -37,11 +52,23 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     name = entry.data[CONF_NAME]
     port = entry.data[CONF_PORT]
     slave = entry.data[CONF_SLAVE]
+    protocol = entry.data.get(CONF_PROTOCOL, PROTOCOL_RTU_OVER_TCP)
 
     _LOGGER.info("Setup %s.%s", DOMAIN, name)
 
+    if protocol == PROTOCOL_RTU_OVER_TCP:
+        try:
+            # For pymodbus 3.6.0+
+            framer = ModbusFramer.RTU
+        except AttributeError:
+            # Fallback for older versions where ModbusFramer is the class
+            framer = ModbusFramer
+    else:
+        framer = None
+
     gateway = D3netGateway(
-        AsyncModbusTcpClient(host=host, port=port, timeout=10), slave
+        AsyncModbusTcpClient(host=host, port=port, timeout=10, framer=framer),
+        slave,
     )
     try:
         await gateway.async_setup()
