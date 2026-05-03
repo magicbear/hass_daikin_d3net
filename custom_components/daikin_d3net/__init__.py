@@ -28,6 +28,7 @@ from .const import (
     MANUFACTURER,
     MODEL,
     PROTOCOL_RTU_OVER_TCP,
+    PROTOCOL_TCP,
     UPDATE_INTERVAL,
 )
 from .d3net.gateway import D3netGateway, D3netUnit
@@ -52,7 +53,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     name = entry.data[CONF_NAME]
     port = entry.data[CONF_PORT]
     slave = entry.data[CONF_SLAVE]
-    protocol = entry.data.get(CONF_PROTOCOL, PROTOCOL_RTU_OVER_TCP)
+    protocol = entry.data.get(CONF_PROTOCOL, PROTOCOL_TCP)
 
     _LOGGER.info("Setup %s.%s", DOMAIN, name)
 
