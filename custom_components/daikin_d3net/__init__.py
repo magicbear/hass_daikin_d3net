@@ -52,12 +52,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     _LOGGER.info("Setup %s.%s", DOMAIN, name)
 
     if protocol == PROTOCOL_RTU_OVER_TCP:
-        try:
-            framer = ModbusFramer.RTU
-        except AttributeError:
-            # Fallback for older versions where ModbusFramer is the class
-            framer = ModbusFramer
-        client = AsyncModbusTcpClient(host=host, port=port, timeout=10, framer=framer)
+        client = AsyncModbusTcpClient(host=host, port=port, timeout=10, framer=ModbusFramer.RTU)
     else:
         client = AsyncModbusTcpClient(host=host, port=port, timeout=10)
 
