@@ -7,13 +7,7 @@ from datetime import timedelta
 import logging
 
 from pymodbus.client import AsyncModbusTcpClient
-try:
-    from pymodbus.framer import FramerType as ModbusFramer
-except ImportError:
-    try:
-        from pymodbus.framer import ModbusRtuFramer as ModbusFramer
-    except ImportError:
-        from pymodbus.framer.rtu_framer import ModbusRtuFramer as ModbusFramer
+from pymodbus.framer import FramerType as ModbusFramer
 
 from homeassistant.config_entries import ConfigEntry, ConfigEntryNotReady
 from homeassistant.const import CONF_HOST, CONF_NAME, CONF_PORT, Platform
