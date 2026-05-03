@@ -14,7 +14,8 @@
                     "host": "Modbus Gateway Address",
                     "name": "Prefix for Daikin Modbus Entities",
                     "port": "Modbus Gateway Port",
-                    "slave": "Modbus Slave ID"
+                    "slave": "Modbus Slave ID",
+                    "modbus_protocol": "Modbus Protocol"
                 },
                 "title": "Enter the connection details for your DIII-Net ModBus gateway"
             }
