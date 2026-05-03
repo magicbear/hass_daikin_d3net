@@ -65,12 +65,14 @@ class D3netGateway:
             result = await self._client.connect()
             if result:
                 _LOGGER.debug(
-                    "Daikin Modbus connected"
+                    "Daikin Modbus connected to %s:%s",
+                    self._client.comm_params.host,
+                    self._client.comm_params.port,
                 )
             else:
                 _LOGGER.error("Daikin Modbus unable to connect")
                 raise ConnectionError(
-                    "Daikin Modbus unable to connect"
+                    f"Daikin Modbus unable to connect to {self._client.comm_params.host}:{self._client.comm_params.port}"
                 )
 
     async def async_close(self):
