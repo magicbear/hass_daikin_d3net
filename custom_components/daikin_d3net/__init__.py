@@ -59,7 +59,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     if protocol == PROTOCOL_RTU_OVER_TCP:
         try:
-            # For pymodbus 3.6.0+
             framer = ModbusFramer.RTU
         except AttributeError:
             # Fallback for older versions where ModbusFramer is the class
