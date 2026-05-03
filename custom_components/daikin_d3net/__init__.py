@@ -63,13 +63,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         except AttributeError:
             # Fallback for older versions where ModbusFramer is the class
             framer = ModbusFramer
+        client = AsyncModbusTcpClient(host=host, port=port, timeout=10, framer=framer)
     else:
-        framer = None
+        client = AsyncModbusTcpClient(host=host, port=port, timeout=10)
 
-    gateway = D3netGateway(
-        AsyncModbusTcpClient(host=host, port=port, timeout=10, framer=framer),
-        slave,
-    )
+    gateway = D3netGateway(client, slave)
     try:
         await gateway.async_setup()
         entry.runtime_data = D3netCoordinator(hass, gateway, entry)
