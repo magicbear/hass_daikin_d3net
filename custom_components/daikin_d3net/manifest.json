@@ -1,11 +1,11 @@
 {
   "domain": "daikin_d3net",
   "name": "Daikin DIII-NET Modbus",
-  "codeowners": [ "@martinstafford" ],
+  "codeowners": [ "@martinstafford", "@magicbear" ],
   "config_flow": true,
-  "documentation": "https://github.com/martinstafford/daikin_d3net",
+  "documentation": "https://github.com/magicbear/hass_daikin_d3net",
   "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/martinstafford/daikin_d3net/issues",
+  "issue_tracker": "https://github.com/magicbear/hass_daikin_d3net/issues",
   "requirements": ["pymodbus>=3.10.0"],
-  "version": "1.7.3"
+  "version": "1.8.0"
 }
